@@ -10,7 +10,6 @@ export type EstadoPermiso = 'cargando' | 'concedido' | 'preguntable' | 'bloquead
 
 export const RECURSOS: Recurso[] = ['camara', 'ubicacion', 'notificaciones', 'microfono'];
 
-// textos de la pantalla previa y el camino en Ajustes de cada plataforma
 export const TEXTOS: Record<Recurso, { titulo: string; beneficio: string; rutaAndroid: string; rutaIos: string }> = {
   camara: {
     titulo: 'Cámara',
@@ -51,32 +50,28 @@ export function consultarPermiso(recurso: Recurso): Promise<PermissionResponse> 
 
 export function pedirPermiso(recurso: Recurso): Promise<PermissionResponse> {
   if (recurso === 'camara') return Camera.requestCameraPermissionsAsync();
-  if (recurso === 'ubicacion') return Location.requestForegroundPermissionsAsync(); // solo primer plano
+  if (recurso === 'ubicacion') return Location.requestForegroundPermissionsAsync();
   if (recurso === 'microfono') return requestRecordingPermissionsAsync();
   return pedirPermisoNotificaciones();
 }
 
-// granted y canAskAgain son los dos campos que deciden todo
 export function calcularEstado(respuesta: PermissionResponse): EstadoPermiso {
   if (respuesta.granted || esProvisional(respuesta)) return 'concedido';
   if (respuesta.canAskAgain) return 'preguntable';
   return 'bloqueado';
 }
 
-// notificaciones provisionales de iOS: llegan en silencio sin haber mostrado el diálogo
 export function esProvisional(respuesta: PermissionResponse) {
   const notif = respuesta as Notifications.NotificationPermissionsStatus;
   return notif.ios?.status === Notifications.IosAuthorizationStatus.PROVISIONAL;
 }
 
-// acceso parcial: ubicación aproximada (en Android 'coarse', en iOS 'reduced')
 export function esParcial(recurso: Recurso, respuesta: PermissionResponse) {
   if (recurso !== 'ubicacion' || !respuesta.granted) return false;
   const ubic = respuesta as Location.LocationPermissionResponse;
   return ubic.android?.accuracy === 'coarse' || ubic.ios?.accuracy === 'reduced';
 }
 
-// texto chico para el panel de permisos
 export function detallePermiso(recurso: Recurso, respuesta: PermissionResponse) {
   let texto = `status: ${respuesta.status} | canAskAgain: ${respuesta.canAskAgain}`;
   if (recurso === 'ubicacion') {

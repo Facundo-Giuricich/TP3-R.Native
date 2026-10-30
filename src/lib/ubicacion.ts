@@ -1,7 +1,6 @@
 import * as Location from 'expo-location';
 import { Ubicacion } from './tipos';
 
-// devuelve null si no hay permiso o si falla, así la app no se rompe
 export async function obtenerUbicacion() {
   try {
     const permiso = await Location.getForegroundPermissionsAsync();
@@ -20,7 +19,6 @@ export async function obtenerUbicacion() {
 export function textoUbicacion(ubicacion: Ubicacion | null) {
   if (!ubicacion) return 'Sin ubicación';
   if (ubicacion.tipo === 'sector') return `Sector: ${ubicacion.sector}`;
-  // si es aproximada no mostramos coordenadas
   if (ubicacion.aproximada) return 'Ubicación aproximada';
   return `${ubicacion.latitud.toFixed(5)}, ${ubicacion.longitud.toFixed(5)}`;
 }

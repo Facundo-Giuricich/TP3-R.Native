@@ -10,15 +10,13 @@ type Props = {
   onGrabada: (uri: string | null) => void;
 };
 
-// Nota de voz (desafío opcional). El micrófono se pide recién al tocar "Grabar".
 export function GrabarNota({ uri, onGrabada }: Props) {
-  const microfono = usePermiso('microfono'); // solo consulta, no pide nada
+  const microfono = usePermiso('microfono');
   const grabador = useAudioRecorder(RecordingPresets.HIGH_QUALITY);
   const [grabando, setGrabando] = useState(false);
 
   async function empezar() {
     if (microfono.estado !== 'concedido') {
-      // primero la pantalla previa
       router.push({ pathname: '/permisos/[recurso]', params: { recurso: 'microfono' } });
       return;
     }

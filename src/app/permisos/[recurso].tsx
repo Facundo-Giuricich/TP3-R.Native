@@ -6,7 +6,6 @@ import { PantallaPrevia } from '@/components/PantallaPrevia';
 import { usePermiso } from '@/hooks/usePermiso';
 import { esRecurso, Recurso, TEXTOS } from '@/lib/permisos';
 
-// Pantalla previa al diálogo del sistema (se abre como modal)
 export default function PermisoModal() {
   const { recurso, siguiente } = useLocalSearchParams<{ recurso: string; siguiente?: string }>();
 
@@ -25,7 +24,6 @@ function Contenido({ recurso, siguiente }: { recurso: Recurso; siguiente?: strin
   const { estado, pedir, abrirAjustes } = usePermiso(recurso);
 
   function cerrar(concedido: boolean) {
-    // si venía del botón "Escanear" y aceptó, vamos directo al escáner
     if (concedido && siguiente === 'escanear') {
       router.replace('/reporte/escanear');
     } else {
@@ -34,13 +32,12 @@ function Contenido({ recurso, siguiente }: { recurso: Recurso; siguiente?: strin
   }
 
   async function continuar() {
-    const respuesta = await pedir(); // acá recién aparece el diálogo del sistema
+    const respuesta = await pedir();
     cerrar(respuesta.granted);
   }
 
   if (estado === 'cargando') return <Cargando />;
 
-  // por ejemplo, si lo habilitó desde Ajustes y volvió
   if (estado === 'concedido') {
     return (
       <View style={estilos.pantalla}>

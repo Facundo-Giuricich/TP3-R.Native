@@ -8,12 +8,11 @@ import { PantallaPrevia } from '@/components/PantallaPrevia';
 import { usePermiso } from '@/hooks/usePermiso';
 import { useApp } from '@/lib/store';
 
-// Cuatro estados: cargando -> concedido -> preguntable -> bloqueado
 export default function Escanear() {
   const { cambiarBorrador } = useApp();
   const { estado, pedir, abrirAjustes } = usePermiso('camara');
   const [codigo, setCodigo] = useState('');
-  const yaLeido = useRef(false); // para que no lea el mismo QR muchas veces
+  const yaLeido = useRef(false);
 
   function usarCodigo(valor: string) {
     if (!valor.trim()) return;
@@ -21,12 +20,10 @@ export default function Escanear() {
     router.back();
   }
 
-  // 1. todavía no sabemos el estado
   if (estado === 'cargando') {
     return <Cargando />;
   }
 
-  // 2. concedido: mostramos la cámara
   if (estado === 'concedido') {
     return (
       <CameraView
@@ -42,8 +39,6 @@ export default function Escanear() {
     );
   }
 
-  // 3. preguntable (explicación + Continuar) o 4. bloqueado (Abrir Ajustes)
-  // en los dos casos se puede escribir el código a mano
   return (
     <ScrollView contentContainerStyle={estilos.pantalla}>
       <PantallaPrevia

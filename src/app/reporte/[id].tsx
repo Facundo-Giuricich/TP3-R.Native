@@ -13,7 +13,6 @@ export default function DetalleReporte() {
   const { reportes, cambiarEstado, agregarAviso, quiereAvisos } = useApp();
   const [mensaje, setMensaje] = useState('');
 
-  // validamos el id: si no existe mostramos un mensaje en vez de romper
   const reporte = reportes.find((r) => r.id === id);
 
   if (!reporte) {
@@ -37,7 +36,6 @@ export default function DetalleReporte() {
       await avisarEn10Segundos(titulo, texto);
       setMensaje('Listo, en 10 segundos te llega la notificación.');
     } else {
-      // sin permiso no se bloquea nada: el aviso queda en la bandeja
       agregarAviso(titulo, texto);
       setMensaje('Las notificaciones no están activadas, el aviso quedó en la pestaña Avisos.');
     }

@@ -10,17 +10,15 @@ import { textoUbicacion } from '@/lib/ubicacion';
 
 const categorias: Categoria[] = ['electricidad', 'agua', 'mobiliario', 'equipos'];
 
-// Al abrir esta pantalla NO se pide ningún permiso.
 export default function NuevoReporte() {
   const { borrador, cambiarBorrador, guardarReporte } = useApp();
-  const camara = usePermiso('camara'); // solo para saber el estado, no pide nada
+  const camara = usePermiso('camara');
   const [error, setError] = useState('');
 
   function escanear() {
     if (camara.estado === 'concedido') {
       router.push('/reporte/escanear');
     } else {
-      // primero la pantalla previa, y si acepta va directo al escáner
       router.push({ pathname: '/permisos/[recurso]', params: { recurso: 'camara', siguiente: 'escanear' } });
     }
   }

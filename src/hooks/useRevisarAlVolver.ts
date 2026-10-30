@@ -1,7 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { AppState } from 'react-native';
 
-// llama a revisar() cuando la app vuelve al frente (por ejemplo, al volver de Ajustes)
 export function useRevisarAlVolver(revisar: () => void) {
   const anterior = useRef(AppState.currentState);
 

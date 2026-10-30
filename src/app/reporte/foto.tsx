@@ -10,7 +10,6 @@ export default function Foto() {
   const camara = usePermiso('camara');
 
   async function sacarFoto() {
-    // para sacar la foto sí hace falta el permiso de cámara
     if (camara.estado !== 'concedido') {
       router.push({ pathname: '/permisos/[recurso]', params: { recurso: 'camara' } });
       return;
@@ -23,8 +22,6 @@ export default function Foto() {
   }
 
   async function elegirDeGaleria() {
-    // el selector del sistema no necesita permiso de galería:
-    // la persona elige la foto y la app solo recibe esa
     const resultado = await ImagePicker.launchImageLibraryAsync({ mediaTypes: ['images'], quality: 0.5 });
     if (!resultado.canceled) {
       cambiarBorrador({ fotoUri: resultado.assets[0].uri });

@@ -9,8 +9,6 @@ type Props = {
   onAbrirAjustes: () => void;
 };
 
-// Pantalla que se muestra ANTES del diálogo del sistema.
-// Tiene un solo botón: "Continuar" (o "Abrir Ajustes" si ya está bloqueado).
 export function PantallaPrevia({ recurso, bloqueado, onContinuar, onAbrirAjustes }: Props) {
   const texto = TEXTOS[recurso];
 

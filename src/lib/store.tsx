@@ -25,7 +25,6 @@ type DatosApp = {
 
 const AppContext = createContext<DatosApp | null>(null);
 
-// Los datos se guardan en memoria (alcanza para el TP, no hay backend)
 export function AppProvider({ children }: { children: ReactNode }) {
   const [reportes, setReportes] = useState<Reporte[]>([]);
   const [borrador, setBorrador] = useState<Borrador>(borradorVacio);

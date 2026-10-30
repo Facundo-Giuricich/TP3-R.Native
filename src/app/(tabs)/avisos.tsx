@@ -1,7 +1,6 @@
 import { FlatList, StyleSheet, Text, View } from 'react-native';
 import { useApp } from '@/lib/store';
 
-// Bandeja de avisos: es la alternativa cuando no hay permiso de notificaciones
 export default function Avisos() {
   const { avisos } = useApp();
 

@@ -11,7 +11,6 @@ export default function AjustesApp() {
 
   function cambiar(valor: boolean) {
     setQuiereAvisos(valor);
-    // el permiso se pide recién acá, cuando la persona activa el interruptor
     if (valor && estado !== 'concedido') {
       router.push({ pathname: '/permisos/[recurso]', params: { recurso: 'notificaciones' } });
     }

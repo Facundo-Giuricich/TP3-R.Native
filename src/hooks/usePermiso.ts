@@ -8,20 +8,17 @@ import { useRevisarAlVolver } from './useRevisarAlVolver';
 export function usePermiso(recurso: Recurso) {
   const [respuesta, setRespuesta] = useState<PermissionResponse | null>(null);
 
-  // solo consulta, nunca muestra el diálogo
   const revisar = useCallback(async () => {
     const r = await consultarPermiso(recurso);
     setRespuesta(r);
   }, [recurso]);
 
-  // cada vez que la pantalla vuelve a estar visible (ej: al cerrar la pantalla previa)
   useFocusEffect(
     useCallback(() => {
       revisar();
     }, [revisar])
   );
 
-  // cuando la app vuelve de Ajustes
   useRevisarAlVolver(revisar);
 
   const pedir = useCallback(async () => {
